@@ -90,15 +90,17 @@ impl Algorithm {
         &self,
         image_data: &ImageData,
         filter: &F,
+        segments: Option<usize>,
     ) -> Result<LabelImage<T>, Error>
     where
         T: FloatNumber,
         F: Filter,
     {
+        let segment_size = segments.unwrap_or_else(|| Self::SEGMENTS);
         match self {
             Self::KMeans => segment_internal(image_data, filter, || {
                 KmeansSegmentation::builder()
-                    .segments(Self::SEGMENTS)
+                    .segments(segment_size)
                     .max_iter(Self::KMEANS_MAX_ITER)
                     .tolerance(T::from_f64(Self::KMEANS_TOLERANCE))
                     .metric(DistanceMetric::SquaredEuclidean)
@@ -106,7 +108,7 @@ impl Algorithm {
             }),
             Self::DBSCAN => segment_internal(image_data, filter, || {
                 DbscanSegmentation::builder()
-                    .segments(Self::SEGMENTS)
+                    .segments(segment_size)
                     .min_pixels(Self::DBSCAN_MIN_POINTS)
                     .epsilon(T::from_f64(Self::DBSCAN_EPSILON.powi(2))) // Squared epsilon for squared euclidean distance
                     .metric(DistanceMetric::SquaredEuclidean)
@@ -122,7 +124,7 @@ impl Algorithm {
             }),
             Self::SLIC => segment_internal(image_data, filter, || {
                 SlicSegmentation::builder()
-                    .segments(Self::SEGMENTS)
+                    .segments(segment_size)
                     .max_iter(Self::SLIC_MAX_ITER)
                     .compactness(T::from_f64(Self::SLIC_COMPACTNESS))
                     .tolerance(T::from_f64(Self::SLIC_TOLERANCE))
@@ -131,7 +133,7 @@ impl Algorithm {
             }),
             Self::SNIC => segment_internal(image_data, filter, || {
                 SnicSegmentation::<T>::builder()
-                    .segments(Self::SEGMENTS)
+                    .segments(segment_size)
                     .metric(DistanceMetric::Euclidean)
                     .build()
             }),
@@ -308,7 +310,7 @@ mod tests {
         let image_data = ImageData::new(0, 0, &pixels).expect("Failed to create empty image data");
 
         // Act
-        let actual = algorithm.segment(&image_data, &|rgba: &Rgba| rgba[0] != 0);
+        let actual = algorithm.segment(&image_data, &|rgba: &Rgba| rgba[0] != 0, None);
 
         // Assert
         assert!(actual.is_ok());

@@ -352,8 +352,12 @@ where
     /// # Returns
     /// The `Palette` instance built from the image data.
     pub fn build(self, image_data: &ImageData) -> Result<Palette<T>, Error> {
+        self.build_with_segments(image_data, None)
+    }
+
+    pub fn build_with_segments(self, image_data: &ImageData, segments: Option<usize>) -> Result<Palette<T>, Error> {
         // Group the points into clusters using the specified algorithm.
-        let label_image = self.algorithm.segment(image_data, &self.filter)?;
+        let label_image = self.algorithm.segment(image_data, &self.filter, segments)?;
 
         // Merge similar color clusters and create swatches.
         let mut swatches = to_swatches(&label_image)?;
