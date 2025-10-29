@@ -1,19 +1,19 @@
-mod ansi16;
-mod ansi256;
-mod cmyk;
-mod error;
-mod gamut;
-mod hsl;
-mod hsv;
-mod hue;
-mod lab;
-mod lchab;
-mod lchuv;
-mod luv;
-mod oklab;
-mod oklch;
-mod rgb;
-mod white_point;
+pub mod ansi16;
+pub mod ansi256;
+pub mod cmyk;
+pub mod error;
+pub mod gamut;
+pub mod hsl;
+pub mod hsv;
+pub mod hue;
+pub mod lab;
+pub mod lchab;
+pub mod lchuv;
+pub mod luv;
+pub mod oklab;
+pub mod oklch;
+pub mod rgb;
+pub mod white_point;
 pub mod xyz;
 
 use std::{
