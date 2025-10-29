@@ -98,7 +98,7 @@ where
     /// # Returns
     /// A new `Color` instance.
     #[must_use]
-    pub(crate) fn new(l: T, a: T, b: T) -> Self {
+    pub fn new(l: T, a: T, b: T) -> Self {
         Self {
             l,
             a,
