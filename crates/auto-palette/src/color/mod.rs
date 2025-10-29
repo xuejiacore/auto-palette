@@ -14,7 +14,7 @@ mod oklab;
 mod oklch;
 mod rgb;
 mod white_point;
-pub(crate) mod xyz;
+pub mod xyz;
 
 use std::{
     fmt,
