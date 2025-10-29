@@ -4,9 +4,9 @@ pub mod color;
 mod error;
 mod image;
 mod math;
-mod palette;
-mod swatch;
-mod theme;
+pub mod palette;
+pub mod swatch;
+pub mod theme;
 
 pub use algorithm::Algorithm;
 pub use error::Error;
